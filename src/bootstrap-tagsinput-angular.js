@@ -36,8 +36,17 @@ angular.module('bootstrap-tagsinput', [])
         var prev = scope.model.slice();
 
         scope.select = $('select', element);
+        var typeaheadSourceArray = attrs.typeaheadSource ? attrs.typeaheadSource.split('.') : null;
+        var typeaheadSource = typeaheadSourceArray ?
+            (typeaheadSourceArray.length > 1 ?
+                scope.$parent[typeaheadSourceArray[0]][typeaheadSourceArray[1]]
+                : scope.$parent[typeaheadSourceArray[0]])
+            : null;
 
         scope.select.tagsinput({
+          typeahead : {
+            source   : angular.isFunction(typeaheadSource) ? typeaheadSource : null
+          },
           itemValue: getItemProperty(scope, attrs.itemvalue),
           itemText : getItemProperty(scope, attrs.itemtext),
           confirmKeys : getItemProperty(scope, attrs.confirmkeys) ? JSON.parse(attrs.confirmkeys) : [13],
