@@ -28,7 +28,6 @@
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-contrib-nodeunit": "~0.2.0",
     "grunt-karma": "~0.4.5",
-    "grunt-contrib-watch": "~0.5.1",
     "phantomjs": "~1.9.2-2"
   },
   "banner": "/*\n * <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %>\n * <%= pkg.license.url %>\n */\n"
