@@ -22,7 +22,16 @@ angular.module('bootstrap-tagsinput', [])
     restrict: 'EA',
     controller: tagsInputController,
     scope: {
-      model: '=ngModel'
+      model: '=ngModel',
+      itemValue: '=',
+      itemText: '=',
+      tagClass: '=',
+      freeInput: '=',
+      maxTags: '=',
+      confirmKeys: '=',
+      onTagExists: '=',
+      trimValue: '=',
+      confirmOnBlur: '='
     },
     template: '<select multiple></select>',
     replace: false,
@@ -36,6 +45,7 @@ angular.module('bootstrap-tagsinput', [])
         var prev = scope.model.slice();
 
         scope.select = $('select', element);
+        scope.select.attr('placeholder', typeof attrs.placeholder !== 'undefined' ? attrs.placeholder : '');
         var typeaheadSourceArray = attrs.typeaheadSource ? attrs.typeaheadSource.split('.') : null;
         var typeaheadSource = typeaheadSourceArray ?
             (typeaheadSourceArray.length > 1 ?
@@ -44,13 +54,18 @@ angular.module('bootstrap-tagsinput', [])
             : null;
 
         scope.select.tagsinput({
-          typeahead : {
-            source   : angular.isFunction(typeaheadSource) ? typeaheadSource : null
+          typeahead: {
+            source: angular.isFunction(typeaheadSource) ? typeaheadSource : null
           },
-          itemValue: getItemProperty(scope, attrs.itemvalue),
-          itemText : getItemProperty(scope, attrs.itemtext),
-          confirmKeys : getItemProperty(scope, attrs.confirmkeys) ? JSON.parse(attrs.confirmkeys) : [13],
-          tagClass : angular.isFunction(scope.$parent[attrs.tagclass]) ? scope.$parent[attrs.tagclass] : function(item) { return attrs.tagclass; }
+          itemValue: scope.itemValue,
+          itemText: scope.itemText,
+          tagClass: scope.tagClass,
+          freeInput: scope.freeInput,
+          maxTags: scope.maxTags,
+          confirmKeys: scope.confirmKeys,
+          onTagExists: scope.onTagExists,
+          trimValue: scope.trimValue,
+          confirmOnBlur: scope.confirmOnBlur
         });
 
         for (var i = 0; i < scope.model.length; i++) {
