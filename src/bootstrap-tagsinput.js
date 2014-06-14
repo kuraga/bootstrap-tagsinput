@@ -116,7 +116,6 @@
       var $tag = $('<span class="tag ' + htmlEncode(tagClass) + '">' + htmlEncode(itemText) + (this.disable ? '</span>' : '<span data-role="remove"></span></span>'));
       $tag.data('item', item);
       self.findInputWrapper().before($tag);
-      $tag.after(' ');
 
       // add <option /> if item represents a value not present in one of the <select />'s options
       if (self.isSelect && !$('option[value="' + encodeURIComponent(itemValue) + '"]',self.$element)[0]) {
