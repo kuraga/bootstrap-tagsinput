@@ -28,7 +28,7 @@
 
     this.$element = $(element);
     this.$element.hide();
-
+    this.disable = options && options.disable || false;
     this.isSelect = (element.tagName === 'SELECT');
     this.multiple = (this.isSelect && element.hasAttribute('multiple'));
     this.objectItems = options && options.itemValue;
@@ -37,7 +37,7 @@
     this.containerClass = this.$element.attr('class') ? this.$element.attr('class') : 'bootstrap-tagsinput';
     
     this.$container = $('<div class="'+this.containerClass+'"></div>');
-    this.$input = $('<input type="text" placeholder="' + this.placeholderText + '"/>').appendTo(this.$container);
+    this.$input = $('<input type="text" ' + (this.disable ? 'disable ' : '') + 'placeholder="' + this.placeholderText + '"/>').appendTo(this.$container);
 
     this.$element.after(this.$container);
 
@@ -111,7 +111,7 @@
       self.itemsArray.push(item);
 
       // add a tag element
-      var $tag = $('<span class="tag ' + htmlEncode(tagClass) + '">' + htmlEncode(itemText) + '<span data-role="remove"></span></span>');
+      var $tag = $('<span class="tag ' + htmlEncode(tagClass) + '">' + htmlEncode(itemText) + (this.disable ? '</span>' : '<span data-role="remove"></span></span>'));
       $tag.data('item', item);
       self.findInputWrapper().before($tag);
       $tag.after(' ');
