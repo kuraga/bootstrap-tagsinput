@@ -33,7 +33,6 @@
     "grunt-contrib-copy": "~0.4.1",
     "grunt-zip": "~0.9.2",
     "grunt-jquerymanifest": "~0.1.2",
-    "grunt-contrib-less": "~0.6.4",
     "phantomjs": "~1.9.2-2"
   },
   "banner": "/*\n * <%= pkg.name %> v<%= pkg.version %> by <%= pkg.author %>\n * <%= pkg.license.url %>\n */\n"
