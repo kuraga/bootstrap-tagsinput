@@ -1,42 +1,34 @@
 module.exports = function(grunt) {
 
-  var lib = [
-    'angular/angular.min.js',
-    'bootstrap-2.3.2/docs/assets/css/bootstrap.css',
-    'bootstrap-2.3.2/docs/assets/css/docs.css',
-    'bootstrap-2.3.2/docs/assets/js/bootstrap.min.js',
-    'bootstrap-3/dist/css/bootstrap-theme.min.css',
-    'bootstrap-3/dist/css/bootstrap.min.css',
-    'bootstrap-3/dist/js/bootstrap.min.js',
-    'bootstrap-tagsinput/bootstrap-tagsinput.css',
-    'jquery/dist/jquery.min.js',
-    'rainbow/js/language/generic.js',
-    'rainbow/js/language/html.js',
-    'rainbow/js/language/javascript.js',
-    'rainbow/js/rainbow.min.js',
-    'rainbow/themes/github.css',
-    'typeahead.js/dist/typeahead.bundle.js'
-  ];
-
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-zip');
   grunt.loadNpmTasks('grunt-jquerymanifest');
+  grunt.loadNpmTasks('grunt-bower-task');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-
+    bower: {
+      install: {
+        options: {
+          targetDir: './lib',
+          layout: 'byType',
+          install: true,
+          verbose: true,
+          cleanTargetDir: false,
+          cleanBowerDir: true,
+          bowerOptions: {
+            forceLatest: true
+          }
+        }
+      }
+    },
     copy: {
       build: {
         files: [
-          {expand: true, flatten: true, src: ['src/*.*'], dest: 'dist/', filter: 'isFile'},
-
-          {expand: true, flatten: false, cwd: 'bower_components/', src: [lib], dest: 'examples/lib/'},
-          {expand: true, flatten: false, cwd: 'dist/', src: ['**'], dest: 'examples/lib/bootstrap-tagsinput'},
-
-          {expand: true, flatten: false, cwd: 'bower_components/', src: [lib], dest: 'test/lib/'}
+          {expand: true, flatten: true, src: ['src/*.*'], dest: 'dist/', filter: 'isFile'}
         ]
       }
     },
@@ -89,6 +81,8 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', ['test', 'jquerymanifest', 'zip']);
-  grunt.registerTask('test', ['uglify', 'copy', 'karma']);
+  grunt.registerTask('install', ['bower']);
+  grunt.registerTask('prepare', ['uglify', 'copy']);
+  grunt.registerTask('test', ['karma']);
+  grunt.registerTask('build', ['prepare', 'test', 'jquerymanifest', 'zip']);
 };
